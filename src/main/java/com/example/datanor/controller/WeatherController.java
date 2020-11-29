@@ -63,7 +63,7 @@ public class WeatherController {
     }
 
     @DeleteMapping("cities/{id}")
-    public String deleteCity(@PathVariable("id") long id){
+    public String deleteCity(@PathVariable("id") long id) throws Exception {
         return weatherService.deleteCity(id);
     }
 

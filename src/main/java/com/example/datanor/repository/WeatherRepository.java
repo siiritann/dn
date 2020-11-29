@@ -75,12 +75,11 @@ public class WeatherRepository {
 
     }
 
-    public String deleteCity(long id){
+    public int deleteCity(long id){
         String sql = "DELETE FROM cities where id = :id";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("id", id);
-        jdbcTemplate.update(sql, paramMap);
-        return "City deleted";
+        return jdbcTemplate.update(sql, paramMap);
     }
 }
 

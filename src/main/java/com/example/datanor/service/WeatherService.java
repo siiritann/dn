@@ -88,8 +88,12 @@ public class WeatherService {
 
     }
 
-    public String deleteCity(long id){
-        return weatherRepository.deleteCity(id);
+    public String deleteCity(long id) throws Exception {
+        if(weatherRepository.deleteCity(id) == 1){
+            return "City deleted";
+        } else {
+            throw new Exception("Something went wrong");
+        }
     }
 
     public List getCityInfoById(long id){
