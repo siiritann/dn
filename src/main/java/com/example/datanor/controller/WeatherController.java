@@ -28,28 +28,15 @@ public class WeatherController {
     }
 
     // TODO ADD READ FROM JSON HERE
-    @PostMapping("/cities/add")
+//    @PostMapping("/cities/add")
     // example: http://localhost:8080/addcity?id=588409&n=Tallinn&c=EE
-    public void addCity(@RequestParam("id") long id,
+    /*public void addCity(@RequestParam("id") long id,
                           @RequestParam("n") String name,
                           @RequestParam("c") String country) throws Exception {
         weatherService.addCity(id, name, country);
     }
+*/
 
-    @GetMapping("/cities/my")
-    public List getMyCities(){
-        return weatherService.getMyCities();
-    }
-
-    @GetMapping("/cities")
-    public List getCityByName(@RequestParam("n") String name){
-        return weatherService.getCityByName(name);
-    }
-
-    @GetMapping("cities/view/{id}")
-    public List getCityInfoById(@PathVariable("id") long id){
-        return weatherService.getCityInfoById(id);
-    }
 
     @PostMapping("/weather/add/{id}")
     public void addCityWeather(@PathVariable("id") long id) throws Exception {
@@ -64,11 +51,6 @@ public class WeatherController {
     @GetMapping("/weather/{id}")
     public List getWeatherForOneCity(@PathVariable("id") long id){
         return weatherService.getWeatherForOneCity(id);
-    }
-
-    @DeleteMapping("cities/{id}")
-    public String deleteCity(@PathVariable("id") long id) throws Exception {
-        return weatherService.deleteCity(id);
     }
 
 

@@ -1,14 +1,11 @@
 package com.example.datanor.repository;
 
-import com.example.datanor.controller.City;
-import com.example.datanor.controller.CityRowMapper;
 import com.example.datanor.controller.CityWeatherRowMapper;
 import com.example.datanor.controller.CityWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,27 +15,6 @@ public class WeatherRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-
-    // TODO ADD READ FROM JSON HERE
-    public List<City> getCityInfoById(long id) {
-        String sql = "SELECT * FROM cities where id = :id";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", id);
-        List<City> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
-        return resultList;
-    }
-
-    // TODO
-    public String addCity(long id, String name, String country) {
-        String sql = "INSERT INTO cities (id, name, country_code) VALUES (:id, :name, :country)";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", id);
-        paramMap.put("name", name);
-        paramMap.put("country", country);
-        jdbcTemplate.update(sql, paramMap);
-        return "City " + name + " added to your poll list";
-    }
-
 
     public void addCityWeather(CityWeather cityWeather){
         String sql = "INSERT INTO weather (city_id, temp_celsius, wind_speed, humidity, timestamp)" +
@@ -59,13 +35,6 @@ public class WeatherRepository {
         return weatherList;
     }
 
-    public List getMyCities() {
-        String sql = "SELECT * FROM cities";
-        Map<String, Object> paramMap = new HashMap<>();
-        List<City> weatherList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
-        return weatherList;
-    }
-
     public List getWeatherForOneCity(long id){
         String sql = "SELECT * FROM weather where city_id = :cityId";
         Map<String, Object> paramMap = new HashMap<>();
@@ -75,19 +44,7 @@ public class WeatherRepository {
 
     }
 
-    public int deleteCity(long id){
-        String sql = "DELETE FROM cities where id = :id";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", id);
-        return jdbcTemplate.update(sql, paramMap);
-    }
 
-    public List<City> getCityByName(String name) {
-        String sql = "SELECT * FROM cities where name = :name";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name", name);
-        List<City> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
-        return resultList;
-    }
+
 }
 

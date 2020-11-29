@@ -7,20 +7,19 @@ public class CityWeather {
     long id;
     long cityId;
     BigDecimal temperatureInCelsius;
-    double windSpeed; // TODO ?
+    BigDecimal windSpeed;
     int humidity;
     Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
 
     public CityWeather() {
     }
 
-    public CityWeather(long cityId, BigDecimal temperatureInCelsius, double windSpeed, int humidity) {
+    public CityWeather(long cityId, BigDecimal temperatureInCelsius, BigDecimal windSpeed, int humidity) {
         this.cityId = cityId;
         this.temperatureInCelsius = temperatureInCelsius;
         this.windSpeed = windSpeed;
         this.humidity = humidity;
         this.timestamp = new java.sql.Timestamp(System.currentTimeMillis());
-
     }
 
     public long getId() {
@@ -47,11 +46,11 @@ public class CityWeather {
         this.temperatureInCelsius = temperatureInCelsius;
     }
 
-    public double getWindSpeed() {
+    public BigDecimal getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(double windSpeed) {
+    public void setWindSpeed(BigDecimal windSpeed) {
         this.windSpeed = windSpeed;
     }
 

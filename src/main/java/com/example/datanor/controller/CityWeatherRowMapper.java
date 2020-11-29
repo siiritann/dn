@@ -13,7 +13,7 @@ public class CityWeatherRowMapper implements RowMapper {
         cityWeather.setId(resultSet.getLong("id"));
         cityWeather.setCityId(resultSet.getLong("city_id"));
         cityWeather.setTemperatureInCelsius(resultSet.getBigDecimal("temp_celsius"));
-        cityWeather.setWindSpeed(resultSet.getDouble("wind_speed"));
+        cityWeather.setWindSpeed(resultSet.getBigDecimal("wind_speed"));
         cityWeather.setHumidity(resultSet.getInt("humidity"));
         cityWeather.setTimestamp(resultSet.getTimestamp("timestamp"));
         return cityWeather;

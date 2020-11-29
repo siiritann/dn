@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class WeatherService {
@@ -38,18 +36,6 @@ public class WeatherService {
 
     }
 
-    public void addCity(long id, String name, String country) {
-        weatherRepository.addCity(id, name, country);
-    }
-    // TODO ADD READ FROM JSON HERE
-/*    public String addCity(long id) throws Exception{
-       CityWeather cityWeather = getWeatherByCityId(id);
-       List list = weatherRepository.getCityInfoById(id);
-       JSONObject myObject = new JSONObject((String) list.get(0));
-       String name = myObject.getString("name");
-       String country = myObject.getString("countryCode");
-        return weatherRepository.addCity(id, name, country);
-    }*/
 
     public CityWeather getWeatherByCityId(long id) throws Exception{
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -63,7 +49,7 @@ public class WeatherService {
         JSONObject myObject = new JSONObject(response.body().string());
         Long cityId = myObject.getLong("id");
         BigDecimal temp = new BigDecimal(myObject.getJSONObject("main").getString("temp"));
-        double windSpeed = myObject.getJSONObject("wind").getDouble("speed");
+        BigDecimal windSpeed = new BigDecimal(myObject.getJSONObject("wind").getString("speed"));
         int humidity = myObject.getJSONObject("main").getInt("humidity");
         CityWeather cityWeather = new CityWeather(cityId, temp, windSpeed, humidity);
         return cityWeather;
@@ -79,28 +65,10 @@ public class WeatherService {
         return weatherRepository.getAllWeatherData();
     }
 
-    public List getMyCities(){
-        return weatherRepository.getMyCities();
-    }
 
     public List getWeatherForOneCity(long id){
         return weatherRepository.getWeatherForOneCity(id);
 
     }
 
-    public String deleteCity(long id) throws Exception {
-        if(weatherRepository.deleteCity(id) == 1){
-            return "City deleted";
-        } else {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    public List getCityInfoById(long id){
-        return weatherRepository.getCityInfoById(id);
-    }
-
-    public List getCityByName(String name) {
-        return weatherRepository.getCityByName(name);
-    }
 }
