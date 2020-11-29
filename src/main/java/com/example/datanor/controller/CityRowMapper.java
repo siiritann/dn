@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CityRowMapper implements RowMapper {
+public class CityRowMapper implements RowMapper<City> {
     @Override
     public City mapRow(ResultSet resultSet, int i) throws SQLException {
         City city = new City();

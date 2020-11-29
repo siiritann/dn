@@ -36,11 +36,15 @@ public class WeatherController {
         weatherService.addCity(id, name, country);
     }
 
-    @GetMapping("/cities")
+    @GetMapping("/cities/my")
     public List getMyCities(){
         return weatherService.getMyCities();
     }
 
+    @GetMapping("/cities")
+    public List getCityByName(@RequestParam("n") String name){
+        return weatherService.getCityByName(name);
+    }
 
     @GetMapping("cities/view/{id}")
     public List getCityInfoById(@PathVariable("id") long id){

@@ -20,13 +20,13 @@ public class WeatherRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     // TODO ADD READ FROM JSON HERE
-   public List<CityWeather> getCityInfoById(long id){
-       String sql = "SELECT * FROM cities where id = :id";
-       Map<String, Object> paramMap = new HashMap<>();
-       paramMap.put("id", id);
-       List<CityWeather> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
-       return resultList;
-   }
+    public List<City> getCityInfoById(long id) {
+        String sql = "SELECT * FROM cities where id = :id";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("id", id);
+        List<City> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
+        return resultList;
+    }
 
     // TODO
     public String addCity(long id, String name, String country) {
@@ -62,7 +62,7 @@ public class WeatherRepository {
     public List getMyCities() {
         String sql = "SELECT * FROM cities";
         Map<String, Object> paramMap = new HashMap<>();
-        List<CityWeather> weatherList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
+        List<City> weatherList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
         return weatherList;
     }
 
@@ -80,6 +80,14 @@ public class WeatherRepository {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("id", id);
         return jdbcTemplate.update(sql, paramMap);
+    }
+
+    public List<City> getCityByName(String name) {
+        String sql = "SELECT * FROM cities where name = :name";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("name", name);
+        List<City> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
+        return resultList;
     }
 }
 

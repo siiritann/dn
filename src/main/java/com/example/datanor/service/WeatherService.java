@@ -99,4 +99,8 @@ public class WeatherService {
     public List getCityInfoById(long id){
         return weatherRepository.getCityInfoById(id);
     }
+
+    public List getCityByName(String name) {
+        return weatherRepository.getCityByName(name);
+    }
 }
