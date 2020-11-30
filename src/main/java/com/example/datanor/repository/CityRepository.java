@@ -50,6 +50,13 @@ public class CityRepository {
         return weatherList;
     }
 
+    public List<Long> getMyCitiesIds() {
+        String sql = "SELECT id FROM tracked_cities";
+        Map<String, Object> paramMap = new HashMap<>();
+        List<Long> idList = jdbcTemplate.queryForList(sql, paramMap, Long.class);
+        return idList;
+    }
+
     public int deleteCity(long id){
         String sql = "DELETE FROM tracked_cities where id = :id";
         Map<String, Object> paramMap = new HashMap<>();

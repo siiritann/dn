@@ -29,6 +29,11 @@ public class CityService {
     }
 
 
+    // TODO merge with getMyCities
+    public List<Long> getMyCitiesIds(){
+        return cityRepository.getMyCitiesIds();
+    }
+
     public String deleteCity(long id) throws Exception {
         if(cityRepository.deleteCity(id) == 1){
             return "City deleted";
