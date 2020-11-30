@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
@@ -27,30 +28,36 @@ public class CityController {
     private CityService cityService;
 
 
-    @PostMapping("cities/addall")
-    public void addCitiesToBase(){
-        JSONParser parser = new JSONParser();
-        try {
-            Object objectArray = parser
-                    .parse(new FileReader("C:\\Users\\Siiri\\Desktop\\datanor\\src\\main\\resources\\static\\city.list4.json"));
-            JSONArray jsonArray = (JSONArray) objectArray;
-            for (Object object : jsonArray) {
-                JSONObject jsonObject = (JSONObject) object;
-                if(jsonObject.get("id").getClass() == Long.class){
-                    Long id = (Long) jsonObject.get("id");
-                    String name = (String) jsonObject.get("name");
-                    String country = (String) jsonObject.get("country");
-                    String state = (String) jsonObject.get("state");
-                    cityService.addCitiesToBase(id, name, country, state);
-                } else {
-                    System.out.println(jsonObject.get("id"));
-                    System.out.println(jsonObject.get("name"));
+    @PostConstruct
+    public void init() {
+
+        if (cityService.countBaseCities() != 0) {
+            System.out.println(cityService.countBaseCities());
+        } else {
+            JSONParser parser = new JSONParser();
+            try {
+                Object objectArray = parser
+                        .parse(new FileReader("C:\\Users\\Siiri\\Desktop\\datanor\\src\\main\\resources\\static\\city.list.json"));
+                JSONArray jsonArray = (JSONArray) objectArray;
+                for (Object object : jsonArray) {
+                    JSONObject jsonObject = (JSONObject) object;
+                    if (jsonObject.get("id").getClass() == Long.class) {
+                        Long id = (Long) jsonObject.get("id");
+                        String name = (String) jsonObject.get("name");
+                        String country = (String) jsonObject.get("country");
+                        String state = (String) jsonObject.get("state");
+                        cityService.addCitiesToBase(id, name, country, state);
+                    } else {
+                        System.out.println(jsonObject.get("id"));
+                        System.out.println(jsonObject.get("name"));
+                    }
                 }
+            } catch (FileNotFoundException fe) {
+                fe.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException fe) {
-            fe.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 

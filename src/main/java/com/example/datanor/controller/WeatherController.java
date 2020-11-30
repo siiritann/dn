@@ -27,17 +27,6 @@ public class WeatherController {
         return weatherService.appendUri(id);
     }
 
-    // TODO ADD READ FROM JSON HERE
-//    @PostMapping("/cities/add")
-    // example: http://localhost:8080/addcity?id=588409&n=Tallinn&c=EE
-    /*public void addCity(@RequestParam("id") long id,
-                          @RequestParam("n") String name,
-                          @RequestParam("c") String country) throws Exception {
-        weatherService.addCity(id, name, country);
-    }
-*/
-
-
     @PostMapping("/weather/add/{id}")
     public void addCityWeather(@PathVariable("id") long id) throws Exception {
         weatherService.addCityWeather(id);

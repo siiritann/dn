@@ -20,6 +20,10 @@ public class CityService {
         cityRepository.addCitiesToBase(id, name, country, state);
     }
 
+    public int countBaseCities(){
+        return cityRepository.countBaseCities();
+    }
+
     public void addTrackedCity(long id){
        cityRepository.addTrackedCity(id);
     }

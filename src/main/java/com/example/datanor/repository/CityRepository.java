@@ -74,7 +74,6 @@ public class CityRepository {
         return city;
     }
 
-    // TODO ADD READ FROM JSON HERE
     public List<City> getCityInfoById(long id) {
         String sql = "SELECT * FROM cities where id = :id";
         Map<String, Object> paramMap = new HashMap<>();
@@ -83,4 +82,8 @@ public class CityRepository {
         return resultList;
     }
 
+    public int countBaseCities() {
+        String sql = "SELECT COUNT(*) FROM cities";
+        return jdbcTemplate.queryForObject(sql, new HashMap<>(),Integer.class);
+    }
 }
