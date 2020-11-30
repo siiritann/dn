@@ -17,6 +17,18 @@ public class CityRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+    public void addCitiesToBase(long id, String name, String country, String state){
+        String sql = "INSERT INTO cities (id, name, country_code, state_code) " +
+                "VALUES (:id, :name, :country, :state)";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("id", id);
+        paramMap.put("name", name);
+        paramMap.put("country", country);
+        paramMap.put("state", state);
+        jdbcTemplate.update(sql, paramMap);
+    }
+
+
     public void addTrackedCity(long id){
         String sql = "INSERT INTO tracked_cities (id) VALUES (:id)";
         Map<String, Object> paramMap = new HashMap<>();

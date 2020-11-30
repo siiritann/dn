@@ -16,6 +16,10 @@ public class CityService {
     @Autowired
     private CityRepository cityRepository;
 
+    public void addCitiesToBase(long id, String name, String country, String state){
+        cityRepository.addCitiesToBase(id, name, country, state);
+    }
+
     public void addTrackedCity(long id){
        cityRepository.addTrackedCity(id);
     }
