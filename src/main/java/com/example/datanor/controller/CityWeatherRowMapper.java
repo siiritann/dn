@@ -1,12 +1,11 @@
 package com.example.datanor.controller;
 
-import com.example.datanor.controller.CityWeather;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CityWeatherRowMapper implements RowMapper {
+public class CityWeatherRowMapper implements RowMapper<CityWeather> {
     @Override
     public CityWeather mapRow(ResultSet resultSet, int i) throws SQLException {
         CityWeather cityWeather = new CityWeather();

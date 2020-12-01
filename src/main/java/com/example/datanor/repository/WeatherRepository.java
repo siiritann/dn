@@ -28,14 +28,8 @@ public class WeatherRepository {
         jdbcTemplate.update(sql, paramMap);
     }
 
-    public List getAllWeatherData() {
-        String sql = "SELECT * FROM weather";
-        Map<String, Object> paramMap = new HashMap<>();
-        List<CityWeather> weatherList = jdbcTemplate.query(sql, paramMap, new CityWeatherRowMapper());
-        return weatherList;
-    }
 
-    public List getWeatherForOneCity(long id){
+    public List<CityWeather> getWeatherForOneCity(long id){
         String sql = "SELECT * FROM weather where city_id = :cityId";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("cityId", id);

@@ -1,12 +1,10 @@
 package com.example.datanor.controller;
 
 import com.example.datanor.service.CityService;
-import com.example.datanor.service.WeatherService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -17,12 +15,6 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class CityController {
-
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private WeatherService weatherService;
 
     @Autowired
     private CityService cityService;
@@ -61,30 +53,31 @@ public class CityController {
         }
     }
 
-    @GetMapping("/cities/my")
-    public List getMyCities(){
-        return cityService.getMyCities();
-    }
-
     @GetMapping("/cities")
-    public City getCityByName(@RequestParam("n") String name){
+    public List<City> getCityByName(@RequestParam("n") String name){
         return cityService.getCityByName(name);
     }
 
 
-    @GetMapping("/cities/view/{id}")
-    public List getCityInfoById(@PathVariable("id") long id){
-        return cityService.getCityInfoById(id);
+    @GetMapping("/cities/my")
+    public List<City> getMyCities(){
+        return cityService.getMyCities();
     }
 
-    @PostMapping("cities/add2")
-    public void addTrackedCity(@RequestParam("id") long id){
+
+    @PostMapping("cities/add")
+    public void addTrackedCity(@RequestParam("id") long id) {
         cityService.addTrackedCity(id);
     }
 
     @DeleteMapping("cities/{id}")
-    public String deleteCity(@PathVariable("id") long id) throws Exception {
+    public String deleteCity(@PathVariable("id") long id) {
         return cityService.deleteCity(id);
+    }
+
+    @GetMapping("cities/view/{id}")
+    public String getCityNameById(@PathVariable("id") long id) {
+        return cityService.getCityNameById(id);
     }
 
 }

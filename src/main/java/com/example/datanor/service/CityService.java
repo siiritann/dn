@@ -1,14 +1,11 @@
 package com.example.datanor.service;
 
+import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.controller.City;
 import com.example.datanor.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CityService {
@@ -24,34 +21,37 @@ public class CityService {
         return cityRepository.countBaseCities();
     }
 
-    public void addTrackedCity(long id){
-       cityRepository.addTrackedCity(id);
+    public List<City> getCityByName(String name) {
+        return cityRepository.getCityByName(name);
     }
 
-    public List getMyCities(){
+    public void addTrackedCity(long id) {
+        if (cityRepository.getMyCitiesIds().contains(id)){
+            throw new ApplicationException("This city already is in your watchlist");
+        } else {
+            cityRepository.addTrackedCity(id);
+        }
+    }
+
+    public List<City> getMyCities(){
         return cityRepository.getMyCities();
     }
 
-
-    // TODO merge with getMyCities
     public List<Long> getMyCitiesIds(){
         return cityRepository.getMyCitiesIds();
     }
 
-    public String deleteCity(long id) throws Exception {
+    public String deleteCity(long id) {
         if(cityRepository.deleteCity(id) == 1){
             return "City deleted";
         } else {
-            throw new Exception("Something went wrong");
+            throw new ApplicationException("Something went wrong");
         }
     }
 
-    public City getCityByName(String name) {
-        return cityRepository.getCityByName(name);
-    }
 
-    public List getCityInfoById(long id){
-        return cityRepository.getCityInfoById(id);
+    public String getCityNameById(long id) {
+        return cityRepository.getCityNameById(id);
     }
 
 }
