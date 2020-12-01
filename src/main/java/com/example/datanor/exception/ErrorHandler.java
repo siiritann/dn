@@ -1,15 +1,23 @@
-package com.example.datanor.Exception;
+package com.example.datanor.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
+public class ErrorHandler extends ResponseEntityExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<Object> handleError(ApplicationException e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), new HttpHeaders(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleError(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), new HttpHeaders(),

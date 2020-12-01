@@ -1,4 +1,4 @@
-package com.example.datanor.Exception;
+package com.example.datanor.exception;
 
 public class ErrorResponse {
     private String message;
