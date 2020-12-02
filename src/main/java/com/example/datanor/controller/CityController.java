@@ -1,5 +1,6 @@
 package com.example.datanor.controller;
 
+import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.model.City;
 import com.example.datanor.service.CityService;
 import org.json.simple.JSONArray;
@@ -63,7 +64,11 @@ public class CityController {
 
     @PostMapping("cities/add")
     public void addTrackedCity(@RequestParam("id") long id) {
-        cityService.addTrackedCity(id);
+        if (id < 1) {
+            throw new ApplicationException("Incorrect city name");
+        } else {
+            cityService.addTrackedCity(id);
+        }
     }
 
     @DeleteMapping("cities/delete")
