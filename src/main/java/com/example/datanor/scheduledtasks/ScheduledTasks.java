@@ -17,11 +17,12 @@ public class ScheduledTasks {
     @Autowired
     private WeatherService weatherService;
 
-    @Scheduled(fixedRate = 900000)
-    public void test(){
+    // TODO change to 900000
+    @Scheduled(fixedRate = 10000)
+    public void test() {
         List<Long> list = cityService.getMyCitiesIds();
         try {
-            for (long i : list){
+            for (long i : list) {
                 weatherService.addCityWeather(i);
             }
         } catch (Exception e) {

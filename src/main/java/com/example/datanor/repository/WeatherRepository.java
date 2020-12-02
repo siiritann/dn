@@ -1,7 +1,6 @@
 package com.example.datanor.repository;
 
-import com.example.datanor.controller.CityWeatherRowMapper;
-import com.example.datanor.controller.CityWeather;
+import com.example.datanor.model.CityWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,7 @@ public class WeatherRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public void addCityWeather(CityWeather cityWeather){
+    public void addCityWeather(CityWeather cityWeather) {
         String sql = "INSERT INTO weather (city_id, temp_celsius, wind_speed, humidity, timestamp)" +
                 " VALUES (:cityId, :temperatureInCelsius, :windSpeed, :humidity, :timestamp)";
         Map<String, Object> paramMap = new HashMap<>();
@@ -29,7 +28,7 @@ public class WeatherRepository {
     }
 
 
-    public List<CityWeather> getWeatherForOneCity(long id){
+    public List<CityWeather> getWeatherForOneCity(long id) {
         String sql = "SELECT * FROM weather where city_id = :cityId";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("cityId", id);
@@ -37,7 +36,6 @@ public class WeatherRepository {
         return resultList;
 
     }
-
 
 
 }

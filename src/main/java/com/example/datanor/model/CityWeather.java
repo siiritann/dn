@@ -1,4 +1,4 @@
-package com.example.datanor.controller;
+package com.example.datanor.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

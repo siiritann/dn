@@ -1,7 +1,7 @@
 package com.example.datanor.service;
 
 import com.example.datanor.exception.ApplicationException;
-import com.example.datanor.controller.CityWeather;
+import com.example.datanor.model.CityWeather;
 import com.example.datanor.repository.WeatherRepository;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +20,11 @@ public class WeatherService {
     private WeatherRepository weatherRepository;
 
 
-    public URI appendUri(long id) throws URISyntaxException {
-
-        String baseUri = "http://api.openweathermap.org/data/2.5/weather?units=metric";
-        String appid = "0c78a76af15cc5843caa7b5f44e1623e";
-
-        URI oldUri = new URI(baseUri);
-
-        String newQuery = oldUri.getQuery();
-        newQuery += "&appid=" + appid + "&id=" + String.valueOf(id);
-
-        return new URI(oldUri.getScheme(), oldUri.getAuthority(),
-                oldUri.getPath(), newQuery, oldUri.getFragment());
-
+    public URI getUriForCity(long id) throws URISyntaxException {
+        String url = "http://api.openweathermap.org/data/2.5/weather?units=metric";
+        url += "&appid=0c78a76af15cc5843caa7b5f44e1623e";
+        url += "&id=" + id;
+        return new URI(url);
     }
 
 
@@ -41,7 +33,7 @@ public class WeatherService {
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
-            URI url = appendUri(id);
+            URI url = getUriForCity(id);
             Request request = new Request.Builder()
                     .url(HttpUrl.get(url))
                     .method("GET", null)
@@ -60,7 +52,7 @@ public class WeatherService {
         }
     }
 
-    public void addCityWeather(long id)  {
+    public void addCityWeather(long id) {
         CityWeather cityWeather = getWeatherByCityId(id);
         weatherRepository.addCityWeather(cityWeather);
 

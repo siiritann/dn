@@ -1,5 +1,6 @@
 package com.example.datanor.controller;
 
+import com.example.datanor.model.City;
 import com.example.datanor.service.CityService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,22 +30,17 @@ public class CityController {
             JSONParser parser = new JSONParser();
             try {
                 Object objectArray = parser
-                        .parse(new FileReader("C:\\Users\\Siiri\\Desktop\\datanor\\src\\main\\resources\\static\\city.list.json"));
+                        .parse(new FileReader("src/main/resources/static/city.list.json"));
                 JSONArray jsonArray = (JSONArray) objectArray;
                 for (Object object : jsonArray) {
                     JSONObject jsonObject = (JSONObject) object;
-                    if (jsonObject.get("id").getClass() == Long.class) {
-                        Long id = (Long) jsonObject.get("id");
-                        String name = (String) jsonObject.get("name");
-                        String country = (String) jsonObject.get("country");
-                        String state = (String) jsonObject.get("state");
-                        cityService.addCitiesToBase(id, name, country, state);
-                    } else {
-                        System.out.println(jsonObject.get("id"));
-                        System.out.println(jsonObject.get("name"));
-                    }
+                    Long id = (Long) jsonObject.get("id");
+                    String name = (String) jsonObject.get("name");
+                    String country = (String) jsonObject.get("country");
+                    String state = (String) jsonObject.get("state");
+                    cityService.addCitiesToBase(id, name, country, state);
                 }
-            } catch (FileNotFoundException fe) {
+            } catch (FileNotFoundException fe) { // TODO remove?
                 fe.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -54,13 +50,13 @@ public class CityController {
     }
 
     @GetMapping("/cities")
-    public List<City> getCityByName(@RequestParam("n") String name){
+    public List<City> getCityByName(@RequestParam("name") String name) {
         return cityService.getCityByName(name);
     }
 
 
     @GetMapping("/cities/my")
-    public List<City> getMyCities(){
+    public List<City> getMyCities() {
         return cityService.getMyCities();
     }
 
@@ -70,8 +66,8 @@ public class CityController {
         cityService.addTrackedCity(id);
     }
 
-    @DeleteMapping("cities/{id}")
-    public String deleteCity(@PathVariable("id") long id) {
+    @DeleteMapping("cities/delete")
+    public String deleteCity(@RequestParam("id") long id) {
         return cityService.deleteCity(id);
     }
 
