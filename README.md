@@ -13,7 +13,6 @@
     2) add city
     3) remove city
     4) see weather data for one of my cities
-    5) see weather data for all of my cities
 
 4. Add README file that explains the steps how to start & use the program
  
@@ -23,7 +22,7 @@
 Prerequisite: java release version 14
 
 1. Open this BE project in Intellij IDE
-https://github.com/siiritann/datanor
+https://github.com/siiritann/dn
 
 2. Install dependancies, refresh maven if necessary
 
