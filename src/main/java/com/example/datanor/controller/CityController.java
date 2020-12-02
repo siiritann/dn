@@ -41,12 +41,9 @@ public class CityController {
                     String state = (String) jsonObject.get("state");
                     cityService.addCitiesToBase(id, name, country, state);
                 }
-            } catch (FileNotFoundException fe) { // TODO remove?
-                fe.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
