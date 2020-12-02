@@ -20,10 +20,16 @@
  
 ## Manual
 
-1. Run this BE project in localhost on port 8080
+Prerequisite: java release version 14
+
+1. Open this BE project in Intellij IDE
 https://github.com/siiritann/datanor
 
-2. Run this FE project in localhost on another port, e.g. 8081
+2. Install dependancies, refresh maven if necessary
+
+3. Run DatanorApplication.java in localhost on port 8080 (FE application is expecting that port)
+
+4. Run this FE project in localhost on another port, e.g. 8081
 https://github.com/siiritann/dn-vue
 
-3. Open FE project in browser & use it
+5. Open browser on localhost:8081 & start using the application
