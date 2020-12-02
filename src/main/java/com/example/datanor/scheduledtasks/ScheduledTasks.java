@@ -17,8 +17,7 @@ public class ScheduledTasks {
     @Autowired
     private WeatherService weatherService;
 
-    // TODO change to 900000
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 900000)
     public void test() {
         List<Long> list = cityService.getMyCitiesIds();
         try {
