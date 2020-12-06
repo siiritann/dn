@@ -4,8 +4,9 @@ import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.model.CityWeather;
 import com.example.datanor.repository.WeatherRepository;
 import okhttp3.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,13 +40,16 @@ public class WeatherService {
                     .method("GET", null)
                     .build();
             Response response = client.newCall(request).execute();
-            JSONObject myObject = new JSONObject(response.body().string());
-            Long cityId = myObject.getLong("id");
-            BigDecimal temp = new BigDecimal(myObject.getJSONObject("main").getString("temp"));
-            BigDecimal windSpeed = new BigDecimal(myObject.getJSONObject("wind").getString("speed"));
-            int humidity = myObject.getJSONObject("main").getInt("humidity");
-            CityWeather cityWeather = new CityWeather(cityId, temp, windSpeed, humidity);
-            return cityWeather;
+            JSONParser parser = new JSONParser();
+            Object object = parser.parse(response.body().string());
+            JSONObject jsonObject = (JSONObject) object;
+            Long cityId = (Long) jsonObject.get("id");
+            JSONObject main = (JSONObject) jsonObject.get("main");
+            BigDecimal temp = new BigDecimal((Double) main.get("temp"));
+            Integer humidity = (int) (long) main.get("humidity");
+            JSONObject wind = (JSONObject) jsonObject.get("wind");
+            BigDecimal windSpeed = new BigDecimal((Double) wind.get("speed"));
+            return new CityWeather(cityId, temp, windSpeed, humidity);
 
         } catch (Exception e) {
             throw new ApplicationException("Couldn't get weather for this city");

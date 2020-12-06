@@ -27,10 +27,9 @@ public class CityRepository {
     }
 
     public List<City> getCityByName(String name) {
-        String name2 = name + "%";
-        String sql = "SELECT * FROM cities WHERE name ILIKE :name2 ";
+        String sql = "SELECT * FROM cities WHERE name ILIKE :name";
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name2", name2);
+        paramMap.put("name", "%"+name+"%");
         List<City> resultList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
         return resultList;
     }
