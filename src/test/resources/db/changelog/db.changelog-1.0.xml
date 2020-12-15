@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="siiri">
+        <createTable tableName="cities">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+            <column name="country_code" type="text">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+            <column name="state_code" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="tracked_cities">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" unique="true" foreignKeyName="fk_tracked_cities_cities"
+                             references="cities(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="weather">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="city_id" type="bigint">
+                <constraints nullable="false" primaryKey="false" unique="false"
+                             foreignKeyName="fk_weather_tracked_cities"
+                             references="tracked_cities(id)" deleteCascade="true"/>
+            </column>
+            <column name="temp_celsius" type="real">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="wind_speed" type="real">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="humidity" type="int">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
