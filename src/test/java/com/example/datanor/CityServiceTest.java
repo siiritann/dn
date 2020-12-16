@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,20 +20,23 @@ class CityServiceTest {
     @Autowired
     private MockMvc mockMvc;
 
+
+    @Autowired
+    private CityController cityController;
+
 //    @MockBean
 //    CityController cityController;
 
 
     @Test
-    void contextLoads() {
+    void contextLoads() throws Exception {
+        assertThat(cityController).isNotNull();
     }
 
 
     @Test
     public void getMyCities() throws Exception {
-        long id = 590031;
-        mockMvc.perform(get("/cities/my")
-                .param("id", String.valueOf(id)))
+        mockMvc.perform(get("/cities/my"))
                 .andExpect(status().isOk());
     }
 
