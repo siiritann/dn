@@ -10,6 +10,13 @@ public class City {
     public City() {
     }
 
+    public City(long id, String name, String countryCode, String stateCode) {
+        this.id = id;
+        this.name = name;
+        this.countryCode = countryCode;
+        this.stateCode = stateCode;
+    }
+
     public long getId() {
         return id;
     }
