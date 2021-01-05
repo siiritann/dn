@@ -29,15 +29,16 @@ class CityServiceTest  {
     private CityRepository cityRepository;
 
 
- /*   @Test
+ /*  @Test
     public void getMyCities() throws Exception {
         mockMvc.perform(get("/cities/my"))
                 .andExpect(status().isOk());
     }*/
 
 
+
     @Test
-    public void getMyCities() throws Exception {
+    public void getMyCities2() throws Exception {
         when(cityRepository.getMyCities()).thenReturn(List.of(new City(123, "Tartu", "EE", "")));
         List <City> result = cityService.getMyCities();
         assertThat(result.size()).isEqualTo(1);
