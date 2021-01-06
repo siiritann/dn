@@ -3,7 +3,6 @@ package com.example.datanor.controller;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.model.City;
 import com.example.datanor.service.CityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +11,11 @@ import java.util.List;
 @RestController
 public class CityController {
 
-    @Autowired
-    private CityService cityService;
+    private final CityService cityService;
+
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
 
 
     @GetMapping("/cities")

@@ -2,7 +2,6 @@ package com.example.datanor.controller;
 
 import com.example.datanor.model.CityWeather;
 import com.example.datanor.service.WeatherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -14,9 +13,11 @@ import java.util.List;
 public class WeatherController {
 
 
-    @Autowired
-    private WeatherService weatherService;
+    private final WeatherService weatherService;
 
+    public WeatherController(WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
 
     @PostMapping("/weather/add/{id}")
     public void addCityWeather(@PathVariable("id") long id) {

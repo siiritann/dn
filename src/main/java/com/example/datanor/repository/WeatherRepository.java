@@ -1,7 +1,6 @@
 package com.example.datanor.repository;
 
 import com.example.datanor.model.CityWeather;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +11,11 @@ import java.util.Map;
 @Repository
 public class WeatherRepository {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    public WeatherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void addCityWeather(CityWeather cityWeather) {
         String sql = "INSERT INTO weather (city_id, temp_celsius, wind_speed, humidity, timestamp)" +

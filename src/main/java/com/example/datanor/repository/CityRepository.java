@@ -1,7 +1,6 @@
 package com.example.datanor.repository;
 
 import com.example.datanor.model.City;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +11,11 @@ import java.util.Map;
 @Repository
 public class CityRepository {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    public CityRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void addCitiesToBase(long id, String name, String country, String state) {
         String sql = "INSERT INTO cities (id, name, country_code, state_code) " +
