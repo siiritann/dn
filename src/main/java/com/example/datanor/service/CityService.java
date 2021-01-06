@@ -51,7 +51,11 @@ public class CityService {
 
 
     public String getCityNameById(long id) {
-        return cityRepository.getCityNameById(id);
+        try {
+            return cityRepository.getCityNameById(id);
+        } catch (Exception e) {
+            throw new ApplicationException("City with this ID was not found");
+        }
     }
 
 }
