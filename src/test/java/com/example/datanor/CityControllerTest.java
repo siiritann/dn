@@ -1,21 +1,16 @@
 package com.example.datanor;
 
 import com.example.datanor.controller.CityController;
+import com.example.datanor.exception.ApplicationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
-import java.util.ArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,7 +32,10 @@ public class CityControllerTest extends AbstractTest {
     public void cityNameSearch_WhenExistsOneCity() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/cities?name=Tallinn"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":588409,\"name\":\"Tallinn\",\"countryCode\":\"EE\",\"stateCode\":\"\"}]"));
+                .andExpect(jsonPath("$[0].id", is(588409)))
+                .andExpect(jsonPath("$[0].name", is("Tallinn")))
+                .andExpect(jsonPath("$[0].countryCode", is("EE")))
+                .andExpect(jsonPath("$[0].stateCode", is("")));
     }
 
     @Test
@@ -56,7 +54,7 @@ public class CityControllerTest extends AbstractTest {
                 .andExpect(content().json("[]"));
     }
 
-
+// TODO küsi testide sõltuvuste kohta
     @Test
     public void getMyCities() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -103,10 +101,10 @@ public class CityControllerTest extends AbstractTest {
     @Test
     public void deleteCity_WhenCityExists() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/cities/add?id=588334"))
+                .post("/cities/add?id=7522388"))
                 .andExpect(status().isOk());
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/cities/delete?id=588334"))
+                .delete("/cities/delete?id=7522388"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("City deleted"));
     }
@@ -114,7 +112,7 @@ public class CityControllerTest extends AbstractTest {
     @Test
     public void deleteCity_WhenCityDoesntExistPositiveValue() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/cities/delete?id=588334"))
+                .delete("/cities/delete?id=589782"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("{\"message\": \"Something went wrong\"}"));
     }
@@ -131,8 +129,7 @@ public class CityControllerTest extends AbstractTest {
     public void deleteCity_WhenCityIdIsMissingFromURL() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .delete("/cities/delete"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"message\": \"Something went wrong\"}"));
+                .andExpect(status().isBadRequest());
     }
 
 
@@ -152,15 +149,15 @@ public class CityControllerTest extends AbstractTest {
     public void viewCity_WhenCityDoesntExist() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/cities/view/-589578"))
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().json("{\"message\": \"Incorrect result size: expected 1, actual 0\"}"));
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ApplicationException));
     }
 
     @Test
-    public void viewCity_WhenCityIdIsMissingFromURL() throws Exception {
+    public void viewCity_WhenCityIdIsStringNotLong() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/cities/view/"))
-                .andExpect(status().isNotFound());
+                .get("/cities/view/abs"))
+                .andExpect(status().isBadRequest());
     }
 
 }
