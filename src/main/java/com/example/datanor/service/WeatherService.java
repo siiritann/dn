@@ -6,7 +6,7 @@ import com.example.datanor.repository.WeatherRepository;
 import okhttp3.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,15 +17,24 @@ import java.util.List;
 @Service
 public class WeatherService {
 
-    @Autowired
-    private WeatherRepository weatherRepository;
+    private final WeatherRepository weatherRepository;
+
+    public WeatherService(WeatherRepository weatherRepository) {
+        this.weatherRepository = weatherRepository;
+    }
+
+    @Value("${datanor.weatherMap.url}")
+    private String url;
+
+    @Value("${datanor.weatherMap.appid}")
+    private String appid;
 
 
     public URI getUriForCity(long id) throws URISyntaxException {
-        String url = "http://api.openweathermap.org/data/2.5/weather?units=metric";
-        url += "&appid=0c78a76af15cc5843caa7b5f44e1623e";
-        url += "&id=" + id;
-        return new URI(url);
+        String updatedUrl = url;
+        updatedUrl += "&appid=" + appid;
+        updatedUrl += "&id=" + id;
+        return new URI(updatedUrl);
     }
 
 
@@ -56,6 +65,8 @@ public class WeatherService {
         }
     }
 
+
+    // TODO kui id ei ole olemas siis exception (create new, 404 ja mingi uus tekst), error händleris teisendan teksti ära
     public void addCityWeather(long id) {
         CityWeather cityWeather = getWeatherByCityId(id);
         weatherRepository.addCityWeather(cityWeather);

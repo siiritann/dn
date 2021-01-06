@@ -5,6 +5,8 @@ import com.example.datanor.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @CrossOrigin
@@ -27,4 +29,9 @@ public class WeatherController {
         return weatherService.getWeatherForOneCity(id);
     }
 
+    // TESTING ONLY
+    @GetMapping("/url/{id}")
+    public URI geturl(@PathVariable("id") long id) throws URISyntaxException {
+        return weatherService.getUriForCity(id);
+    }
 }
