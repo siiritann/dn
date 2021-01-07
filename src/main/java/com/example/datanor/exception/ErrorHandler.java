@@ -17,6 +17,20 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Object> handleError(ObjectNotFoundException e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), new HttpHeaders(),
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InternalException.class)
+    public ResponseEntity<Object> handleError(InternalException e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), new HttpHeaders(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleError(Exception e) {
         e.printStackTrace();

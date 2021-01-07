@@ -1,6 +1,7 @@
 package com.example.datanor;
 
 import com.example.datanor.exception.ApplicationException;
+import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
 import com.example.datanor.repository.CityRepository;
 import com.example.datanor.service.CityService;
@@ -111,7 +112,7 @@ class CityServiceTest {
     public void getCityNameById_WhenIncorrectId() {
         when(cityRepository.getCityNameById(123)).thenThrow(EmptyResultDataAccessException.class);
         // throw exception sest süsteemi mõttes on see exception mitte string
-        assertThrows(ApplicationException.class, () -> cityService.getCityNameById(123));
+        assertThrows(ObjectNotFoundException.class, () -> cityService.getCityNameById(123));
     }
 
 }

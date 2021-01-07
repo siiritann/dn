@@ -1,6 +1,7 @@
 package com.example.datanor.service;
 
 import com.example.datanor.exception.ApplicationException;
+import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
 import com.example.datanor.repository.CityRepository;
 import org.json.simple.JSONArray;
@@ -88,7 +89,7 @@ public class CityService {
         try {
             return cityRepository.getCityNameById(id);
         } catch (Exception e) {
-            throw new ApplicationException("City with this ID was not found");
+            throw new ObjectNotFoundException("City with this ID was not found");
         }
     }
 

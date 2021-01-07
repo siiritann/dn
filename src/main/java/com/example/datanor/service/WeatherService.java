@@ -1,6 +1,7 @@
 package com.example.datanor.service;
 
 import com.example.datanor.exception.ApplicationException;
+import com.example.datanor.exception.InternalException;
 import com.example.datanor.model.CityWeather;
 import com.example.datanor.repository.WeatherRepository;
 import okhttp3.*;
@@ -19,8 +20,11 @@ public class WeatherService {
 
     private final WeatherRepository weatherRepository;
 
-    public WeatherService(WeatherRepository weatherRepository) {
+    private final CityService cityService;
+
+    public WeatherService(WeatherRepository weatherRepository, CityService cityService) {
         this.weatherRepository = weatherRepository;
+        this.cityService = cityService;
     }
 
     @Value("${datanor.weatherMap.url}")
@@ -61,16 +65,21 @@ public class WeatherService {
             return new CityWeather(cityId, temp, windSpeed, humidity);
 
         } catch (Exception e) {
-            throw new ApplicationException("Couldn't get weather for this city");
+            throw new ApplicationException("Couldn't get weather for this city", e);
         }
     }
 
 
     // TODO kui id ei ole olemas siis exception (create new, 404 ja mingi uus tekst), error händleris teisendan teksti ära
     public void addCityWeather(long id) {
-        CityWeather cityWeather = getWeatherByCityId(id);
-        weatherRepository.addCityWeather(cityWeather);
-
+        if (cityService.getCityNameById(id).length() > 0) {
+            try {
+                CityWeather cityWeather = getWeatherByCityId(id);
+                weatherRepository.addCityWeather(cityWeather);
+            } catch (Exception e) {
+                throw new InternalException("Something went wrong", e);
+            }
+        }
     }
 
 

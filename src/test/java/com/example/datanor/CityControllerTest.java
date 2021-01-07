@@ -1,14 +1,14 @@
 package com.example.datanor;
 
 import com.example.datanor.controller.CityController;
-import com.example.datanor.exception.ApplicationException;
+import com.example.datanor.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -149,8 +149,8 @@ public class CityControllerTest extends AbstractTest {
     public void viewCity_WhenCityDoesntExist() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/cities/view/-589578"))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ApplicationException));
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ObjectNotFoundException));
     }
 
     @Test
