@@ -9,7 +9,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
@@ -22,17 +23,16 @@ public class CityService {
     }
 
 
-    // TODO refacto classloaderiga
-
     @PostConstruct
-    public void init() {
+    public void init_refactored() {
         if (countBaseCities() != 0) {
             System.out.println(countBaseCities());
         } else {
             JSONParser parser = new JSONParser();
-            try {
-                Object objectArray = parser
-                        .parse(new FileReader("src/main/resources/static/city.list.json"));
+            ClassLoader classLoader = getClass().getClassLoader();
+
+            try (InputStream inputStream = classLoader.getResourceAsStream("static/city.list.json")) {
+                Object objectArray = parser.parse(new InputStreamReader(inputStream, "UTF-8"));
                 JSONArray jsonArray = (JSONArray) objectArray;
                 for (Object object : jsonArray) {
                     JSONObject jsonObject = (JSONObject) object;
