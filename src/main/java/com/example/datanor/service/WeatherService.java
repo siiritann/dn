@@ -2,11 +2,16 @@ package com.example.datanor.service;
 
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.InternalException;
-import com.example.datanor.model.CityWeather;
+import com.example.datanor.model.Weather;
 import com.example.datanor.repository.WeatherRepository;
-import okhttp3.*;
+import com.example.datanor.repository.WeatherRepositoryHibernate;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,9 @@ public class WeatherService {
         this.cityService = cityService;
     }
 
+    @Autowired
+    private WeatherRepositoryHibernate weatherRepositoryHibernate;
+
     @Value("${datanor.weatherMap.url}")
     private String url;
 
@@ -42,7 +50,7 @@ public class WeatherService {
     }
 
 
-    public CityWeather getWeatherByCityId(long id) {
+    public Weather getWeatherByCityId(long id) {
 
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
@@ -62,7 +70,7 @@ public class WeatherService {
             Integer humidity = (int) (long) main.get("humidity");
             JSONObject wind = (JSONObject) jsonObject.get("wind");
             BigDecimal windSpeed = new BigDecimal((Double) wind.get("speed"));
-            return new CityWeather(cityId, temp, windSpeed, humidity);
+            return new Weather(cityId, temp, windSpeed, humidity);
 
         } catch (Exception e) {
             throw new ApplicationException("Couldn't get weather for this city", e);
@@ -70,12 +78,13 @@ public class WeatherService {
     }
 
 
-    // TODO kui id ei ole olemas siis exception (create new, 404 ja mingi uus tekst), error händleris teisendan teksti ära
     public void addCityWeather(long id) {
         if (cityService.getCityNameById(id).length() > 0) {
             try {
-                CityWeather cityWeather = getWeatherByCityId(id);
-                weatherRepository.addCityWeather(cityWeather);
+//                CityWeather cityWeather = getWeatherByCityId(id);
+//                weatherRepository.addCityWeather(cityWeather);
+                Weather weather = getWeatherByCityId(id);
+                weatherRepositoryHibernate.save(weather);
             } catch (Exception e) {
                 throw new InternalException("Something went wrong", e);
             }
@@ -83,8 +92,9 @@ public class WeatherService {
     }
 
 
-    public List<CityWeather> getWeatherForOneCity(long id) {
-        return weatherRepository.getWeatherForOneCity(id);
+    public List<Weather> getWeatherForOneCity(long id) {
+//        return weatherRepository.getWeatherForOneCity(id);
+        return weatherRepositoryHibernate.findAllByCityId(id);
 
     }
 

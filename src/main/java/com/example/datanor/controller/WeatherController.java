@@ -1,6 +1,6 @@
 package com.example.datanor.controller;
 
-import com.example.datanor.model.CityWeather;
+import com.example.datanor.model.Weather;
 import com.example.datanor.service.WeatherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class WeatherController {
 
 
     @GetMapping("/weather/{id}")
-    public List<CityWeather> getWeatherForOneCity(@PathVariable("id") long id) {
+    public List<Weather> getWeatherForOneCity(@PathVariable("id") long id) {
         return weatherService.getWeatherForOneCity(id);
     }
 

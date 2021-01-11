@@ -19,7 +19,7 @@ public class ScheduledTasks {
         this.weatherService = weatherService;
     }
 
-    @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedRate = 60000) // milliseconds
     public void test() {
         List<Long> list = cityService.getMyCitiesIds();
         try {

@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+* Deprecated due to addition of Hibernate.
+* Use WeatherRepositoryHibernate instead.
+* */
+@Deprecated(since = "2021-01-11", forRemoval = true)
 @Repository
 public class WeatherRepository {
 
