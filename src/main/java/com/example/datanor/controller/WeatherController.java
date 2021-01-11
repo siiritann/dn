@@ -26,7 +26,7 @@ public class WeatherController {
 
 
     @GetMapping("/weather/{id}")
-    public List<Weather> getWeatherForOneCity(@PathVariable("id") long id) {
+    public List<Weather> getWeatherForOneCity(@PathVariable("id") Long id) {
         return weatherService.getWeatherForOneCity(id);
     }
 

@@ -92,9 +92,8 @@ public class WeatherService {
     }
 
 
-    public List<Weather> getWeatherForOneCity(long id) {
-//        return weatherRepository.getWeatherForOneCity(id);
-        return weatherRepositoryHibernate.findAllByCityId(id);
+    public List<Weather> getWeatherForOneCity(Long id) {
+        return weatherRepositoryHibernate.getWeatherByCityId(id);
 
     }
 

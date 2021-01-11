@@ -3,6 +3,7 @@ package com.example.datanor.model;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Deprecated(since = "2021-01-11", forRemoval = true)
 public class CityWeather {
     long id;
     long cityId;
