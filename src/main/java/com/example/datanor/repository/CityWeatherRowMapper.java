@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+@Deprecated(since = "2021-01-11", forRemoval = true)
 public class CityWeatherRowMapper implements RowMapper<CityWeather> {
     @Override
     public CityWeather mapRow(ResultSet resultSet, int i) throws SQLException {
