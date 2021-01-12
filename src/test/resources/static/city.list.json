@@ -1,0 +1,94 @@
+[
+{
+        "id": 588335,
+        "name": "Tartu",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 26.72509,
+            "lat": 58.380619
+        }
+    },
+    {
+        "id": 7522388,
+        "name": "Tapa",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 25.958611,
+            "lat": 59.260559
+        }
+    },
+    {
+        "id": 588334,
+        "name": "Tamsalu",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 26.11528,
+            "lat": 59.158611
+        }
+    },
+    {
+        "id": 588409,
+        "name": "Tallinn",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.753531,
+            "lat": 59.436958
+        }
+    },
+    {
+        "id": 163342,
+        "name": "Tabasalu",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.53306,
+            "lat": 59.430279
+        }
+    }
+	,
+    {
+        "id": 588153,
+        "name": "Türi",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.53306,
+            "lat": 59.430279
+        }
+    },
+    {
+        "id": 7522474,
+        "name": "Türi vald",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.53306,
+            "lat": 59.430279
+        }
+    },
+    {
+        "id": 589782,
+        "name": "Something",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.53306,
+            "lat": 59.430279
+        }
+    }
+	,
+    {
+        "id": 589576,
+        "name": "Pärnumaa",
+        "state": "",
+        "country": "EE",
+        "coord": {
+            "lon": 24.53306,
+            "lat": 59.430279
+        }
+    }
+]

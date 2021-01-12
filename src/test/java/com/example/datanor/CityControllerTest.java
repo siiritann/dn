@@ -12,10 +12,8 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 //import static com.example.datanor.testcontainers.PostgreSQLTestImages.POSTGRES_TEST_IMAGE;
@@ -51,15 +49,15 @@ public class CityControllerTest extends AbstractTest {
 
     @Test
     public void cityNameSearch_WhenExistsOneCity() throws Exception {
-        try (PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))) {
-            postgres.start();
+//        try (PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))) {
+//            postgres.start();
             mockMvc.perform(MockMvcRequestBuilders.get("/cities?name=Tallinn"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$[0].id", is(588409)))
                     .andExpect(jsonPath("$[0].name", is("Tallinn")))
                     .andExpect(jsonPath("$[0].countryCode", is("EE")))
                     .andExpect(jsonPath("$[0].stateCode", is("")));
-        }
+//        }
     }
 
     @Test
