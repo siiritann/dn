@@ -2,12 +2,21 @@ package com.example.datanor;
 
 import com.example.datanor.controller.CityController;
 import com.example.datanor.exception.ObjectNotFoundException;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
+//import static com.example.datanor.testcontainers.PostgreSQLTestImages.POSTGRES_TEST_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
+@Testcontainers
 public class CityControllerTest extends AbstractTest {
 
     @Autowired // parentis konfitud
@@ -23,6 +33,15 @@ public class CityControllerTest extends AbstractTest {
     @Autowired
     private CityController cityController;
 
+//    @ClassRule
+//    public PostgreSQLContainer postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+//
+//    @BeforeEach
+//    public void setUp(){
+//        postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+//    }
+
+
     @Test
     public void contextLoads() throws Exception {
         assertThat(cityController).isNotNull();
@@ -30,12 +49,15 @@ public class CityControllerTest extends AbstractTest {
 
     @Test
     public void cityNameSearch_WhenExistsOneCity() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/cities?name=Tallinn"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", is(588409)))
-                .andExpect(jsonPath("$[0].name", is("Tallinn")))
-                .andExpect(jsonPath("$[0].countryCode", is("EE")))
-                .andExpect(jsonPath("$[0].stateCode", is("")));
+//        try (PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))) {
+//            postgres.start();
+            mockMvc.perform(MockMvcRequestBuilders.get("/cities?name=Tallinn"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$[0].id", is(588409)))
+                    .andExpect(jsonPath("$[0].name", is("Tallinn")))
+                    .andExpect(jsonPath("$[0].countryCode", is("EE")))
+                    .andExpect(jsonPath("$[0].stateCode", is("")));
+//        }
     }
 
     @Test
@@ -65,7 +87,7 @@ public class CityControllerTest extends AbstractTest {
 //                .andExpect(status().isOk());
 //        mockMvc.perform(get("/cities/my"))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.*", hasSize(2)))
+////                .andExpect(jsonPath("$.*", hasSize(2)))
 //                .andExpect(jsonPath("$[*].id", containsInAnyOrder(588153, 588335)));
 //    }
 
