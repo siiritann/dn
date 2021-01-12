@@ -7,11 +7,15 @@ import com.example.datanor.repository.CityRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -23,18 +27,24 @@ public class CityService {
         this.cityRepository = cityRepository;
     }
 
+    Logger logger = LoggerFactory.getLogger(CityService.class);
 
     @PostConstruct
     public void init_refactored() {
         if (countBaseCities() != 0) {
             System.out.println(countBaseCities());
         } else {
+            logger.info("Start city import.");
+            StopWatch watch = new StopWatch();
             JSONParser parser = new JSONParser();
             ClassLoader classLoader = getClass().getClassLoader();
-
+            watch.start();
             try (InputStream inputStream = classLoader.getResourceAsStream("static/city.list.json")) {
-                Object objectArray = parser.parse(new InputStreamReader(inputStream, "UTF-8"));
+                Object objectArray = parser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 JSONArray jsonArray = (JSONArray) objectArray;
+                watch.stop();
+                logger.info("City JSON parsing finished. Execution time: {} ms", watch.getLastTaskTimeMillis());
+                watch.start();
                 for (Object object : jsonArray) {
                     JSONObject jsonObject = (JSONObject) object;
                     Long id = (Long) jsonObject.get("id");
@@ -43,6 +53,8 @@ public class CityService {
                     String state = (String) jsonObject.get("state");
                     addCitiesToBase(id, name, country, state);
                 }
+                watch.stop();
+                logger.info("City import finished. Execution time: {} ms", watch.getLastTaskTimeMillis());
             } catch (Exception e) {
                 e.printStackTrace();
             }
