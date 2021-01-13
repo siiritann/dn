@@ -1,9 +1,20 @@
 package com.example.datanor.model;
 
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
 public class City {
+
+    @ApiModelProperty(required = true)
     long id;
+
     String name;
+
     String countryCode;
+
+    @ApiModelProperty(notes = "Will be shown only for US cities")
     String stateCode;
 
 
