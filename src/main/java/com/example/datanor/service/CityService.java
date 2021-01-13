@@ -88,14 +88,13 @@ public class CityService {
         } else {
             cityRepository.addTrackedCity(id);
             sendMessage(id);
-            weatherService.addCityWeather(id);
         }
     }
 
     public void sendMessage(Long id) {
         String name = getCityNameById(id);
         rabbitTemplate.convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz",
-                "New city " + name + " added successfully!");
+                id);
     }
 
     public List<City> getMyCities() {
