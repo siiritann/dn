@@ -4,6 +4,7 @@ package com.example.datanor.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class Weather {
@@ -16,7 +17,7 @@ public class Weather {
     private BigDecimal temperatureInCelsius;
     private BigDecimal windSpeed;
     private int humidity;
-    private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    private Date timestamp = new Timestamp(System.currentTimeMillis());
 
     public Weather() {
     }
@@ -72,7 +73,7 @@ public class Weather {
         this.humidity = humidity;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
