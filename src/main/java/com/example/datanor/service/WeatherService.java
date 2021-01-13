@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,7 +28,7 @@ public class WeatherService {
 
     private final CityService cityService;
 
-    public WeatherService(WeatherRepository weatherRepository, CityService cityService) {
+    public WeatherService(WeatherRepository weatherRepository, @Lazy CityService cityService) {
         this.weatherRepository = weatherRepository;
         this.cityService = cityService;
     }

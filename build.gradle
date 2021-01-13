@@ -16,6 +16,7 @@ repositories {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     implementation 'org.liquibase:liquibase-core:3.10.3'
     implementation 'org.springframework.boot:spring-boot-configuration-processor:2.3.4.RELEASE'
     implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     runtimeOnly 'org.postgresql:postgresql:42.2.18'
     def junitJupiterVersion = '5.7.0'
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
@@ -39,6 +41,7 @@ dependencies {
     testCompile "org.testcontainers:postgresql:1.15.1"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.0'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
 group = 'com.example'

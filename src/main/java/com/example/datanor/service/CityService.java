@@ -1,14 +1,17 @@
 package com.example.datanor.service;
 
+import com.example.datanor.DatanorApplication;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
+import com.example.datanor.receivers.Receiver;
 import com.example.datanor.repository.CityRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -22,9 +25,15 @@ import java.util.List;
 public class CityService {
 
     private final CityRepository cityRepository;
+    private final WeatherService weatherService;
+    private final RabbitTemplate rabbitTemplate;
+    private final Receiver receiver;
 
-    public CityService(CityRepository cityRepository) {
+    public CityService(CityRepository cityRepository, WeatherService weatherService, RabbitTemplate rabbitTemplate, Receiver receiver) {
         this.cityRepository = cityRepository;
+        this.weatherService = weatherService;
+        this.rabbitTemplate = rabbitTemplate;
+        this.receiver = receiver;
     }
 
     Logger logger = LoggerFactory.getLogger(CityService.class);
@@ -78,7 +87,15 @@ public class CityService {
             throw new ApplicationException("This city already is in your watchlist");
         } else {
             cityRepository.addTrackedCity(id);
+            sendMessage(id);
+            weatherService.addCityWeather(id);
         }
+    }
+
+    public void sendMessage(Long id) {
+        String name = getCityNameById(id);
+        rabbitTemplate.convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz",
+                "New city " + name + " added successfully!");
     }
 
     public List<City> getMyCities() {
