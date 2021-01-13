@@ -2,6 +2,7 @@ package com.example.datanor.controller;
 
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.model.City;
+import com.example.datanor.model.Employee;
 import com.example.datanor.service.CityService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,19 @@ public class CityController {
     @GetMapping("cities/view/{id}")
     public String getCityNameById(@PathVariable("id") long id) {
         return cityService.getCityNameById(id);
+    }
+
+
+    @GetMapping("employees")
+    public String getEmplToString(){
+        Employee e = new Employee(1L, "a", "b", "s");
+        return e.toString();
+    }
+
+    @GetMapping("employeesEmail")
+    public String getEmplEmali(){
+        Employee e = new Employee(1L, "a", "b", "s");
+        return e.getEmail();
     }
 
 }

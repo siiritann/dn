@@ -30,6 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-configuration-processor:2.3.4.RELEASE'
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     runtimeOnly 'org.postgresql:postgresql:42.2.18'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
     def junitJupiterVersion = '5.7.0'
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"

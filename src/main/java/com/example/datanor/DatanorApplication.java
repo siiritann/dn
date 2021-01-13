@@ -27,7 +27,7 @@ public class DatanorApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.datanor.controller"))
-                .paths(regex("/weather.*").or(regex("/cities.*"))) // to exclude testing urls
+//                .paths(regex("/weather.*").or(regex("/cities.*"))) // to exclude testing urls
                 .build()
                 .apiInfo(apiInfo());
     }
