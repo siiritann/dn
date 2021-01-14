@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ class CityServiceTest {
 
     @Mock
     private CityRepository cityRepository;
+
+    @Mock
+    private RabbitTemplate rabbitTemplate;
 
 
     @Test
@@ -50,6 +54,9 @@ class CityServiceTest {
         when(cityRepository.getMyCitiesIds()).thenReturn(of(123L, 321L));
         cityService.addTrackedCity(222);
         verify(cityRepository, times(1)).addTrackedCity(222);
+        verify(rabbitTemplate, times(1)).convertAndSend(any(), eq("foo.bar.baz"), eq(222L));
+//        ALTERNATIIV
+//                verify(rabbitTemplate, times(1)).convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz", 222L);
     }
 
     @Test

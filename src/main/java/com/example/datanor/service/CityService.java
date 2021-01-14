@@ -1,5 +1,6 @@
 package com.example.datanor.service;
 
+import com.example.datanor.DatanorApplication;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
@@ -9,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -22,9 +24,11 @@ import java.util.List;
 public class CityService {
 
     private final CityRepository cityRepository;
+    private final RabbitTemplate rabbitTemplate;
 
-    public CityService(CityRepository cityRepository) {
+    public CityService(CityRepository cityRepository, RabbitTemplate rabbitTemplate) {
         this.cityRepository = cityRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     Logger logger = LoggerFactory.getLogger(CityService.class);
@@ -78,7 +82,13 @@ public class CityService {
             throw new ApplicationException("This city already is in your watchlist");
         } else {
             cityRepository.addTrackedCity(id);
+            sendMessage(id);
         }
+    }
+
+    public void sendMessage(Long id) {
+        rabbitTemplate.convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz",
+                id);
     }
 
     public List<City> getMyCities() {
