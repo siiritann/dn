@@ -4,7 +4,6 @@ import com.example.datanor.DatanorApplication;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
-import com.example.datanor.receivers.Receiver;
 import com.example.datanor.repository.CityRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
