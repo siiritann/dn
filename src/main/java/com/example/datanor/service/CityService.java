@@ -34,9 +34,9 @@ public class CityService {
     Logger logger = LoggerFactory.getLogger(CityService.class);
 
     @PostConstruct
-    public void init_refactored() {
+    public void initRefactored() {
         if (countBaseCities() != 0) {
-            System.out.println(countBaseCities());
+            logger.info("Number of cities imported: " + countBaseCities());
         } else {
             logger.info("Start city import.");
             StopWatch watch = new StopWatch();

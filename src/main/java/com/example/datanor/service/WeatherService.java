@@ -3,7 +3,6 @@ package com.example.datanor.service;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.InternalException;
 import com.example.datanor.model.Weather;
-import com.example.datanor.repository.WeatherRepository;
 import com.example.datanor.repository.WeatherRepositoryHibernate;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -23,12 +22,10 @@ import java.util.List;
 @Service
 public class WeatherService {
 
-    private final WeatherRepository weatherRepository;
 
     private final CityService cityService;
 
-    public WeatherService(WeatherRepository weatherRepository, CityService cityService) {
-        this.weatherRepository = weatherRepository;
+    public WeatherService(CityService cityService) {
         this.cityService = cityService;
     }
 
@@ -66,8 +63,8 @@ public class WeatherService {
             JSONObject jsonObject = (JSONObject) object;
             Long cityId = (Long) jsonObject.get("id");
             JSONObject main = (JSONObject) jsonObject.get("main");
-            BigDecimal temp = new BigDecimal((Double) main.get("temp"));
-            Integer humidity = (int) (long) main.get("humidity");
+            BigDecimal temp = new BigDecimal((Double) main.get("temp")); // TODO fix if raw data is int
+            int humidity = (int) (long) main.get("humidity");
             JSONObject wind = (JSONObject) jsonObject.get("wind");
             BigDecimal windSpeed = new BigDecimal((Double) wind.get("speed"));
             return new Weather(cityId, temp, windSpeed, humidity);
@@ -81,8 +78,6 @@ public class WeatherService {
     public void addCityWeather(long id) {
         if (cityService.getCityNameById(id).length() > 0) {
             try {
-//                CityWeather cityWeather = getWeatherByCityId(id);
-//                weatherRepository.addCityWeather(cityWeather);
                 Weather weather = getWeatherByCityId(id);
                 weatherRepositoryHibernate.save(weather);
             } catch (Exception e) {
