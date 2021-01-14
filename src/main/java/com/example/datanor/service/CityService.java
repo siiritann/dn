@@ -25,15 +25,11 @@ import java.util.List;
 public class CityService {
 
     private final CityRepository cityRepository;
-    private final WeatherService weatherService;
     private final RabbitTemplate rabbitTemplate;
-    private final Receiver receiver;
 
-    public CityService(CityRepository cityRepository, WeatherService weatherService, RabbitTemplate rabbitTemplate, Receiver receiver) {
+    public CityService(CityRepository cityRepository, RabbitTemplate rabbitTemplate) {
         this.cityRepository = cityRepository;
-        this.weatherService = weatherService;
         this.rabbitTemplate = rabbitTemplate;
-        this.receiver = receiver;
     }
 
     Logger logger = LoggerFactory.getLogger(CityService.class);

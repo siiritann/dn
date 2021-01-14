@@ -1,5 +1,6 @@
 package com.example.datanor.receivers;
 
+import com.example.datanor.service.CityService;
 import com.example.datanor.service.WeatherService;
 import org.springframework.stereotype.Component;
 
@@ -9,12 +10,16 @@ public class Receiver {
 
     WeatherService weatherService;
 
-    public Receiver(WeatherService weatherService) {
+    CityService cityService;
+
+    public Receiver(WeatherService weatherService, CityService cityService) {
         this.weatherService = weatherService;
+        this.cityService = cityService;
     }
 
     public void receiveMessage(Long id) {
-        String message = "New city " + id + " added successfully!";
+        String name = cityService.getCityNameById(id);
+        String message = "New city " + name + " added successfully!";
         weatherService.addCityWeather(id);
         System.out.println("Received <" + message + ">");
     }
