@@ -20,8 +20,11 @@ public class Receiver {
     public void receiveMessage(Long id) {
         String name = cityService.getCityNameById(id);
         String message = "New city " + name + " added successfully!";
-        weatherService.addCityWeather(id);
         System.out.println("Received <" + message + ">");
+        try {
+            weatherService.addCityWeather(id);
+        } catch (Exception e) {
+        }
     }
 
 

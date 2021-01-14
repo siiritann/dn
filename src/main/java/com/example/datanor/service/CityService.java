@@ -88,7 +88,6 @@ public class CityService {
     }
 
     public void sendMessage(Long id) {
-        String name = getCityNameById(id);
         rabbitTemplate.convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz",
                 id);
     }
