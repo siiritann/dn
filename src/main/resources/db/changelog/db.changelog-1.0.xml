@@ -48,4 +48,28 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="siiri">
+        <createTable tableName="appusers">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false" primaryKey="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(50)">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+        <dropTable tableName="tracked_cities"></dropTable>
+        <createTable tableName="tracked_cities">
+            <column name="city_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"  foreignKeyName="fk_tracked_cities_city"
+                             references="cities(id)"/>
+            </column>
+            <column  name="user_id"  type="bigint" >
+                <constraints  nullable="false"  primaryKey="true" foreignKeyName="fk_tracked_cities_user"
+                              references="appusers(id)" />
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
