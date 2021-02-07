@@ -22,12 +22,12 @@ public class UserController {
     }
 
     @GetMapping
-    public List<AppUser> get(){
+    public List<AppUser> get() {
         return userService.getUsers();
     }
 
     @PostMapping
-    public AppUser create(@Valid @RequestBody AppUserDto user) throws Exception {
+    public AppUser create(@Valid @RequestBody AppUserDto user) {
         return userService.createUser(user);
     }
 }
