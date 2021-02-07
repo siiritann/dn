@@ -1,6 +1,7 @@
 package com.example.datanor.service;
 
 import com.example.datanor.exception.InternalException;
+import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.AppUser;
 import com.example.datanor.model.AppUserDto;
 import com.example.datanor.repository.UserRepository;
@@ -36,5 +37,17 @@ public class UserService {
 
     public String savePassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public String loginUser(AppUserDto user) {
+        if (!validate(user.getUsername(), user.getPassword())){
+            throw new ObjectNotFoundException("Wrong password");
+        }
+        return "Tubli";
+    }
+
+    public boolean validate(String username, String rawPassword){
+        String encodedPassword = userRepository.getUserByUsername(username).getPassword();
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

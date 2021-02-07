@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
-@RequestMapping("user")
 @RestController
 @Validated
 public class UserController {
@@ -21,13 +20,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("user")
     public List<AppUser> get() {
         return userService.getUsers();
     }
 
-    @PostMapping
+    @PostMapping("user")
     public AppUser create(@Valid @RequestBody AppUserDto user) {
         return userService.createUser(user);
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid @RequestBody AppUserDto user){
+        return userService.loginUser(user);
     }
 }
