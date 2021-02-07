@@ -17,9 +17,9 @@ public class AppUser {
     public AppUser() {
     }
 
-    public AppUser(AppUserDto appUserDto) {
-        this.username = appUserDto.getUsername();
-        this.password = appUserDto.getPassword();
+    public AppUser(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
