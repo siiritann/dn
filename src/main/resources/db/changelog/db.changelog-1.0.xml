@@ -49,7 +49,7 @@
         </createTable>
     </changeSet>
     <changeSet id="2" author="siiri">
-        <createTable tableName="appusers">
+        <createTable tableName="users">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -60,5 +60,16 @@
                 <constraints nullable="false" primaryKey="false" unique="false"/>
             </column>
         </createTable>
+        <createTable tableName="user_cities">
+            <column name="city_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_cities_cities"
+                             references="cities(id)"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_cities_users"
+                             references="users(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_cities" columnNames="city_id, user_id" />
     </changeSet>
 </databaseChangeLog>
