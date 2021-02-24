@@ -1,11 +1,10 @@
 package com.example.datanor.model;
 
 
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="appusers")
+@Table(name = "users")
 public class AppUser {
 
     @Id
