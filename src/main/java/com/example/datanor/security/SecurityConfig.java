@@ -13,9 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable();
+        http.headers().frameOptions().disable();    // NEEDED FOR H2 CONSOLE
     }
 
     @Bean

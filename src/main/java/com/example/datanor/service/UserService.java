@@ -43,7 +43,7 @@ public class UserService {
         if (!validate(user.getUsername(), user.getPassword())){
             throw new ObjectNotFoundException("Wrong password");
         }
-        return "Tubli";
+        return "Login successful!";
     }
 
     public boolean validate(String username, String rawPassword){
