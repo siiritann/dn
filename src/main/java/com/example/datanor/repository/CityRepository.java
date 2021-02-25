@@ -36,6 +36,7 @@ public class CityRepository {
         return resultList;
     }
 
+    @Deprecated
     public void addTrackedCity(long id) {
         String sql = "INSERT INTO tracked_cities (id) VALUES (:id)";
         Map<String, Object> paramMap = new HashMap<>();
@@ -43,7 +44,7 @@ public class CityRepository {
         jdbcTemplate.update(sql, paramMap);
     }
 
-
+    @Deprecated
     public List<City> getMyCities() {
         String sql = "SELECT * FROM tracked_cities t JOIN cities c ON (t.id = c.id)";
         Map<String, Object> paramMap = new HashMap<>();
@@ -51,13 +52,24 @@ public class CityRepository {
         return weatherList;
     }
 
+    public List<City> getMyCitiesRefactored(Long userId) {
+        String sql = "SELECT * FROM user_cities t " +
+                "JOIN cities c ON (t.city_id = c.id) " +
+                "WHERE user_id = :userId";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userId", userId);
+        List<City> weatherList = jdbcTemplate.query(sql, paramMap, new CityRowMapper());
+        return weatherList;
+    }
+
     public List<Long> getMyCitiesIds() {
-        String sql = "SELECT id FROM tracked_cities";
+        String sql = "SELECT city_id FROM user_cities";
         Map<String, Object> paramMap = new HashMap<>();
         List<Long> idList = jdbcTemplate.queryForList(sql, paramMap, Long.class);
         return idList;
     }
 
+    @Deprecated
     public int deleteCity(long id) {
         String sql = "DELETE FROM tracked_cities WHERE id = :id";
         Map<String, Object> paramMap = new HashMap<>();

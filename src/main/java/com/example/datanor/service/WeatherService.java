@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class WeatherService {
 
-
     private final CityService cityService;
 
     public WeatherService(CityService cityService) {
@@ -38,7 +37,6 @@ public class WeatherService {
     @Value("${datanor.weatherMap.appid}")
     private String appid;
 
-
     public URI getUriForCity(long id) throws URISyntaxException {
         String updatedUrl = url;
         updatedUrl += "&appid=" + appid;
@@ -46,9 +44,7 @@ public class WeatherService {
         return new URI(updatedUrl);
     }
 
-
     public Weather getWeatherByCityId(long id) {
-
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
@@ -63,17 +59,16 @@ public class WeatherService {
             JSONObject jsonObject = (JSONObject) object;
             Long cityId = (Long) jsonObject.get("id");
             JSONObject main = (JSONObject) jsonObject.get("main");
-            BigDecimal temp = new BigDecimal((Double) main.get("temp")); // TODO fix if raw data is int
+            BigDecimal temp = BigDecimal.valueOf((Double) main.get("temp")); // TODO fix if raw data is int
             int humidity = (int) (long) main.get("humidity");
             JSONObject wind = (JSONObject) jsonObject.get("wind");
-            BigDecimal windSpeed = new BigDecimal((Double) wind.get("speed"));
+            BigDecimal windSpeed = BigDecimal.valueOf((Double) wind.get("speed"));
             return new Weather(cityId, temp, windSpeed, humidity);
 
         } catch (Exception e) {
             throw new ApplicationException("Couldn't get weather for this city", e);
         }
     }
-
 
     public void addCityWeather(long id) {
         if (cityService.getCityNameById(id).length() > 0) {
@@ -86,10 +81,8 @@ public class WeatherService {
         }
     }
 
-
     public List<Weather> getWeatherForOneCity(Long id) {
         return weatherRepositoryHibernate.getWeatherByCityId(id);
 
     }
-
 }

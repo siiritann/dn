@@ -4,7 +4,9 @@ import com.example.datanor.DatanorApplication;
 import com.example.datanor.exception.ApplicationException;
 import com.example.datanor.exception.ObjectNotFoundException;
 import com.example.datanor.model.City;
+import com.example.datanor.model.UserCity;
 import com.example.datanor.repository.CityRepository;
+import com.example.datanor.repository.UserCityRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,10 +27,12 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final UserCityRepository userCityRepository;
 
-    public CityService(CityRepository cityRepository, RabbitTemplate rabbitTemplate) {
+    public CityService(CityRepository cityRepository, RabbitTemplate rabbitTemplate, UserCityRepository userCityRepository) {
         this.cityRepository = cityRepository;
         this.rabbitTemplate = rabbitTemplate;
+        this.userCityRepository = userCityRepository;
     }
 
     Logger logger = LoggerFactory.getLogger(CityService.class);
@@ -77,6 +81,7 @@ public class CityService {
         return cityRepository.getCityByName(name);
     }
 
+    @Deprecated
     public void addTrackedCity(long id) {
         if (cityRepository.getMyCitiesIds().contains(id)) {
             throw new ApplicationException("This city already is in your watchlist");
@@ -86,23 +91,33 @@ public class CityService {
         }
     }
 
+    public void addUserCity(Long cityId) {
+        if (userCityRepository.findCityIdsByUserId(1L).contains(cityId)) {
+            throw new ApplicationException("This city already is in your watchlist");
+        } else {
+            userCityRepository.save(new UserCity(cityId, 1L));
+        }
+    }
+
     public void sendMessage(Long id) {
         rabbitTemplate.convertAndSend(DatanorApplication.topicExchangeName, "foo.bar.baz",
                 id);
     }
 
     public List<City> getMyCities() {
-        return cityRepository.getMyCities();
+        return cityRepository.getMyCitiesRefactored(1L);
     }
 
     public List<Long> getMyCitiesIds() {
         return cityRepository.getMyCitiesIds();
     }
 
-    public String deleteCity(long id) {
-        if (cityRepository.deleteCity(id) == 1) {
+    public String deleteCity(long cityId) {
+        try {
+            userCityRepository.delete(new UserCity(cityId, 1L));
             return "City deleted";
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new ApplicationException("Something went wrong");
         }
     }
