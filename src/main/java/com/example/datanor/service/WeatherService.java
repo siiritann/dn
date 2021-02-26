@@ -31,10 +31,10 @@ public class WeatherService {
     @Autowired
     private WeatherRepositoryHibernate weatherRepositoryHibernate;
 
-    @Value("${datanor.weatherMap.url}")
+    @Value("${weatherMap.url}")
     private String url;
 
-    @Value("${datanor.weatherMap.appid}")
+    @Value("${weatherMap.appid}")
     private String appid;
 
     public URI getUriForCity(long id) throws URISyntaxException {
