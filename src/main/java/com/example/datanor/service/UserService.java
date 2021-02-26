@@ -40,10 +40,14 @@ public class UserService {
     }
 
     public String loginUser(AppUserDto user) {
-        if (!validate(user.getUsername(), user.getPassword())){
+        String username = user.getUsername();
+        String password = user.getPassword();
+        if (!validate(username, password)) {
             throw new ObjectNotFoundException("Wrong password");
         }
-        return "Login successful!";
+        Long id = userRepository.getIdByUsername(username);
+        Jwt jwt = new Jwt();
+        return jwt.getBearerToken(id, username);
     }
 
     public boolean validate(String username, String rawPassword){
