@@ -25,13 +25,11 @@ public class CityController {
         return cityService.getCityByName(name);
     }
 
-
     @ApiOperation("Returns list of my cities.")
     @GetMapping("/cities/my")
     public List<City> getMyCities() {
         return cityService.getMyCities();
     }
-
 
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Incorrect city name")
@@ -42,7 +40,7 @@ public class CityController {
         if (id < 1) {
             throw new ApplicationException("Incorrect city name");
         } else {
-            cityService.addTrackedCity(id);
+            cityService.addUserCity(id);
         }
     }
 

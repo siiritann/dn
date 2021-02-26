@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.0.Final'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.4.0'
     implementation 'org.mockito:mockito-core:3.6.0'
     implementation 'com.h2database:h2:1.4.200'
@@ -31,6 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-configuration-processor:2.3.4.RELEASE'
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     runtimeOnly 'org.postgresql:postgresql:42.2.18'
     def junitJupiterVersion = '5.7.0'
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"

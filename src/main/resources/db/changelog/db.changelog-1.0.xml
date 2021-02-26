@@ -19,20 +19,36 @@
                 <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
         </createTable>
-        <createTable tableName="tracked_cities">
-            <column name="id" type="bigint">
-                <constraints nullable="false" primaryKey="true" unique="true" foreignKeyName="fk_tracked_cities_cities"
-                             references="cities(id)"/>
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false" primaryKey="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(200)">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
             </column>
         </createTable>
+        <createTable tableName="user_cities">
+            <column name="city_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_cities_cities"
+                             references="cities(id)"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_cities_users"
+                             references="users(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_cities" columnNames="city_id, user_id" />
         <createTable tableName="weather">
             <column name="id" type="serial">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
             <column name="city_id" type="bigint">
                 <constraints nullable="false" primaryKey="false" unique="false"
-                             foreignKeyName="fk_weather_tracked_cities"
-                             references="tracked_cities(id)" deleteCascade="true"/>
+                             foreignKeyName="fk_weather_cities"
+                             references="cities(id)" deleteCascade="true"/>
             </column>
             <column name="temp_celsius" type="real">
                 <constraints nullable="true" primaryKey="false" unique="false"/>
